@@ -14,34 +14,35 @@ enum FeedbackType
 {
     /**
      Selection Change - Date picker changing values haptic feedback
+     iOS 10 required
      */
     case selectionChange
     /**
-     Light Impact - 
+     Light Impact - iOS 10 required
      */
     case lightImpact
     /**
-     Medium Impact
+     Medium Impact - iOS 10 required
      */
     case mediumImpact
     /**
-     Heavy Impact
+     Heavy Impact - iOS 10 required
      */
     case heavyImpact
     /**
-     Success -
+     Success - iOS 10 required
      */
     case success
     /**
-     Error -
+     Error - iOS 10 required
      */
     case error
     /**
-     Warning -
+     Warning - iOS 10 required
      */
     case warning
     /**
-     Peek
+     Peek - iOS 10 required
      */
     case peek
     /**
@@ -158,6 +159,10 @@ class FeedbackGenerator
         if #available(iOS 10.0, *)
         {
             toReturn = true
+        }
+        else
+        {
+            print("⚠️ iOS 10 required to use this feedback.")
         }
         
         return toReturn
