@@ -1,6 +1,5 @@
 //
 //  FeedbackGenerator.swift
-//  Salestrekker
 //
 //  Created by Srdjan Spasojevic on 12/13/18.
 //  Copyright © 2018 Srdjan Spasojevic. All rights reserved.
