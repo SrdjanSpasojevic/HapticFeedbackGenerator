@@ -16,17 +16,17 @@ FeedbackGenerator.generateFeedback(of: .success)
 iOS 10 or higher is required for some vibration options.  
 
 ###### iOS 10 required options:
-* selectionChange
-* lightImpact
-* mediumImpact
-* heavyImpact
-* success
-* error
-* warning
+* electionChange 🔄
+* lightImpact 💡
+* mediumImpact ⚡️
+* heavyImpact 💥
+* success ✅
+* error ❌
+* warning ⚠️
 
 ###### Standard vibration options:
-* peek
-* pop
-* cancelled
-* tryAgain
-* failed
+* peek 👀
+* pop 🔵
+* cancelled 🚫
+* tryAgain 🔁
+* failed ❌💔
