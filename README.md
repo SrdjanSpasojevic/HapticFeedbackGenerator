@@ -2,7 +2,7 @@
 
 🚀 **Status:** Plug and play
 
-## Simple FeedbackGenerator library which makes it easy to apply Haptic Feedback on certain actions in your app.
+### Simple FeedbackGenerator library which makes it easy to apply Haptic Feedback on certain actions in your app.
 
 ## Instalation:
 Just import FeedbackGenerator file into your project.
