@@ -71,65 +71,61 @@ class FeedbackGenerator {
      Some of FeedbackType's are available only on iOS 10.0 or higher. (success, error, warning, selectionChange, light-mediun-heavy impact require iOS 10.0 or higher. peek, pop, cancelled, tryAgain, failed require iOS 9.0 or higher)
      */
     static public func generateFeedback(of type: FeedbackType) {
-        if type == .success && iOS10Available {
-            let success = UINotificationFeedbackGenerator()
-            success.prepare()
-            success.notificationOccurred(.success)
-        } else if type == .error && iOS10Available {
-            let error = UINotificationFeedbackGenerator()
-            error.prepare()
-            error.notificationOccurred(.error)
-        } else if type == .warning && iOS10Available {
-            let warning = UINotificationFeedbackGenerator()
-            warning.prepare()
-            warning.notificationOccurred(.warning)
-        } else if type == .selectionChange && iOS10Available {
-            let selection = UISelectionFeedbackGenerator()
-            selection.prepare()
-            selection.selectionChanged()
-        } else if type == .lightImpact && iOS10Available {
-            let impact = UIImpactFeedbackGenerator(style: .light)
-            impact.prepare()
-            impact.impactOccurred()
-        } else if type == .mediumImpact && iOS10Available {
-            let impact = UIImpactFeedbackGenerator(style: .medium)
-            impact.prepare()
-            impact.impactOccurred()
-        } else if type == .heavyImpact && iOS10Available {
-            // Strong boom
-            let impact = UIImpactFeedbackGenerator(style: .heavy)
-            impact.prepare()
-            impact.impactOccurred()
-        } else if type == .peek {
-            // 'Peek' feedback (weak boom)
-            let peek = SystemSoundID(1519)
-            AudioServicesPlaySystemSound(peek)
-        } else if type == .pop {
-            // 'Pop' feedback (strong boom)
-            let pop = SystemSoundID(1520)
-            AudioServicesPlaySystemSound(pop)
-        } else if type == .cancelled {
-            // 'Cancelled' feedback (three sequential weak booms)
-            let cancelled = SystemSoundID(1521)
-            AudioServicesPlaySystemSound(cancelled)
-        } else if type == .tryAgain {
-            // 'Try Again' feedback (week boom then strong boom)
-            let tryAgain = SystemSoundID(1102)
-            AudioServicesPlaySystemSound(tryAgain)
-        } else if type == .failed {
-            // 'Failed' feedback (three sequential strong booms)
-            let failed = SystemSoundID(1107)
-            AudioServicesPlaySystemSound(failed)
+        guard iOS10Available else {
+            print("⚠️ iOS 10 required to use this feedback.")
+            return
         }
+
+        let generator: UIFeedbackGenerator?
+
+        switch type {
+        case .success:
+            generator = UINotificationFeedbackGenerator()
+            (generator as? UINotificationFeedbackGenerator)?.notificationOccurred(.success)
+        case .error:
+            generator = UINotificationFeedbackGenerator()
+            (generator as? UINotificationFeedbackGenerator)?.notificationOccurred(.error)
+        case .warning:
+            generator = UINotificationFeedbackGenerator()
+            (generator as? UINotificationFeedbackGenerator)?.notificationOccurred(.warning)
+        case .selectionChange:
+            generator = UISelectionFeedbackGenerator()
+            (generator as? UISelectionFeedbackGenerator)?.selectionChanged()
+        case .lightImpact, .mediumImpact, .heavyImpact:
+            let style: UIImpactFeedbackGenerator.FeedbackStyle = {
+                switch type {
+                case .lightImpact: return .light
+                case .mediumImpact: return .medium
+                case .heavyImpact: return .heavy
+                default: return .light // Default to light if the type is not recognized
+                }
+            }()
+            generator = UIImpactFeedbackGenerator(style: style)
+            (generator as? UIImpactFeedbackGenerator)?.impactOccurred()
+        case .peek, .pop, .cancelled, .tryAgain, .failed:
+            playSystemSound(for: type)
+            generator = nil
+        }
+
+        generator?.prepare()
+    }
+
+    private static func playSystemSound(for type: FeedbackType) {
+        let soundID: SystemSoundID
+
+        switch type {
+        case .peek: soundID = 1519
+        case .pop: soundID = 1520
+        case .cancelled: soundID = 1521
+        case .tryAgain: soundID = 1102
+        case .failed: soundID = 1107
+        default: return
+        }
+
+        AudioServicesPlaySystemSound(soundID)
     }
 
     private static var iOS10Available: Bool {
-        var toReturn = false
-        if #available(iOS 10.0, *) {
-            toReturn = true
-        } else {
-            print("⚠️ iOS 10 required to use this feedback.")
-        }
-        return toReturn
+        return #available(iOS 10.0, *)
     }
 }
