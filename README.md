@@ -1,12 +1,14 @@
-# HapticFeedbackGenerator
+# HapticFeedbackGenerator 😊📱
 
-Simple FeedbackGenerator library which makes it easy to apply Haptic Feedback on certain actions in your app.
+🚀 **Status:** Plug and play
+
+## Simple FeedbackGenerator library which makes it easy to apply Haptic Feedback on certain actions in your app.
 
 ## Instalation:
 Just import FeedbackGenerator file into your project.
 
 ## Usage: 
-```
+```swift
 FeedbackGenerator.generateFeedback(of: .success)
 ```
 
